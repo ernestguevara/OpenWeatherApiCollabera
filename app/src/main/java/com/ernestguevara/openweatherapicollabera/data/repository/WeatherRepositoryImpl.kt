@@ -9,9 +9,11 @@ import com.ernestguevara.openweatherapicollabera.util.Constants.ERROR_GENERIC
 import com.ernestguevara.openweatherapicollabera.util.Constants.ERROR_HTTP
 import com.ernestguevara.openweatherapicollabera.util.Constants.ERROR_IO
 import com.ernestguevara.openweatherapicollabera.util.Resource
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
@@ -29,6 +31,7 @@ class WeatherRepositoryImpl @Inject constructor(
 
         try {
             val result = api.getWeather(6.5679824, 125.4153514)
+            Timber.i("onCreate: value is ${Gson().toJson(result)}")
             emit(Resource.Success(result.dtoToDomainModel()))
         } catch (e: HttpException) {
             emit(Resource.Error(message = ERROR_HTTP))

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DarkTextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="LightTextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="LightBiggerTextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+</resources>
