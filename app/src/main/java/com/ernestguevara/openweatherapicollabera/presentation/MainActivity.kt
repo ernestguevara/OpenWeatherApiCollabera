@@ -1,15 +1,17 @@
 package com.ernestguevara.openweatherapicollabera.presentation
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
-import com.ernestguevara.openweatherapicollabera.presentation.main.SectionsPagerAdapter
 import com.ernestguevara.openweatherapicollabera.databinding.ActivityMainBinding
+import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthActivity
+import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthViewModel
+import com.ernestguevara.openweatherapicollabera.presentation.main.SectionsPagerAdapter
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -18,6 +20,7 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity() {
 
     private val weatherViewModel: WeatherViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -35,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         val fab: FloatingActionButton = binding.fab
 
         fab.setOnClickListener { view ->
+            authViewModel.logout()
+            startActivity(Intent(this@MainActivity, AuthActivity::class.java))
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
