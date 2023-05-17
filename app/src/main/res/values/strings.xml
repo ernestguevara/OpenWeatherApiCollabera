@@ -10,7 +10,17 @@
     <string name="login_message">Not yet a user? Register now!</string>
     <string name="signup_message">Already a user? Login now!</string>
 
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="label_today">Today</string>
+    <string name="label_history">History</string>
+
+    <string name="val_sunrise">Sunrise %s</string>
+    <string name="val_sunset">Sunset %s</string>
+    <string name="val_temp_min">Temp Min %.1f°C</string>
+    <string name="val_temp_max">Temp Max %.1f°C</string>
+    <string name="val_humidity">Humidity %d%</string>
+    <string name="val_sea_level">Sea Level %dhPA</string>
+    <string name="val_ground_level">Ground Level %dhPa</string>
+    <string name="val_temp">%.1f°C</string>
+    <string name="weather_error">No Weather Found</string>
 
 </resources>

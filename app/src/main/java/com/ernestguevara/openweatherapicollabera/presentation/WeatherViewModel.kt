@@ -33,6 +33,7 @@ class WeatherViewModel @Inject constructor(
     //init block to get weather upon creation
     init {
         getWeather()
+        getWeatherHistory()
     }
 
     fun getWeather() {
@@ -45,6 +46,7 @@ class WeatherViewModel @Inject constructor(
                     is Resource.Success -> {
                         results.data?.let {
                             _getWeatherValue.postValue(it)
+                            insertWeatherHistory(it)
                         }
                     }
 

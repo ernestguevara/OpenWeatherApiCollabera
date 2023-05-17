@@ -11,7 +11,7 @@ interface WeatherApiService {
     suspend fun getWeather(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("exclude") exclude: String? = null,
+        @Query("units") units: String? = "metric",
         @Query("appid") apiKey: String = BuildConfig.API_KEY
     ): WeatherDTO
 }

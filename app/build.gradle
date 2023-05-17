@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.ernestguevara.openweatherapicollabera"
-        minSdk 24
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -31,10 +31,12 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "BASE_URL", "\"https://api.openweathermap.org/\""
+            buildConfigField "String", "IMG_URL", "\"https://openweathermap.org/\""
 
         }
         release {
             buildConfigField "String", "BASE_URL", "\"https://api.openweathermap.org/\""
+            buildConfigField "String", "IMG_URL", "\"https://openweathermap.org/\""
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -107,6 +109,9 @@ dependencies {
 
     //Google Auth
     implementation "com.google.firebase:firebase-auth-ktx:21.1.0"
+
+    //ViewPager
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     //Timber
     implementation "com.jakewharton.timber:timber:5.0.1"
