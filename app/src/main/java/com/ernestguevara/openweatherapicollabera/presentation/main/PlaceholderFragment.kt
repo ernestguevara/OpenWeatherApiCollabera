@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ernestguevara.openweatherapicollabera.databinding.FragmentMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
+@AndroidEntryPoint
 class PlaceholderFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel

@@ -1,7 +1,7 @@
 package com.ernestguevara.openweatherapicollabera.data.remote.dto
 
 data class WindDTO(
-    val deg: Int?,
-    val gust: Double?,
-    val speed: Double?
+    val deg: Int? = null,
+    val gust: Double? = null,
+    val speed: Double? = null
 )
