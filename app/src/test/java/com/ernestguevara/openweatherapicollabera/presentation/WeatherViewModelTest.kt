@@ -3,7 +3,6 @@ package com.ernestguevara.openweatherapicollabera.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ernestguevara.openweatherapicollabera.MainCoroutineRule
 import com.ernestguevara.openweatherapicollabera.data.MockWeatherRepository
-import com.ernestguevara.openweatherapicollabera.data.remote.WeatherApiService
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
 import com.ernestguevara.openweatherapicollabera.getOrAwaitValue
@@ -11,16 +10,12 @@ import com.ernestguevara.openweatherapicollabera.util.Resource
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.doAnswer
-import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
