@@ -10,7 +10,7 @@ interface WeatherRepository {
     /*
     API Call Section
      */
-    fun getWeather(): Flow<Resource<List<WeatherModel>>>
+    fun getWeather(): Flow<Resource<WeatherModel>>
 
     /*
     Database Call Section
