@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ernestguevara.openweatherapicollabera.databinding.FragmentWeatherHistoryBinding
 import com.ernestguevara.openweatherapicollabera.presentation.adapters.WeatherAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -59,7 +60,6 @@ class WeatherHistoryFragment : Fragment() {
                     rvWeathers.scrollToPosition(0)
                 }
             }
-
         }
     }
 }

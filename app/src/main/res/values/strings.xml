@@ -12,6 +12,10 @@
 
     <string name="label_today">Today</string>
     <string name="label_history">History</string>
+    <string name="label_loading">Loading…</string>
+    <string name="label_logout_message">Are you sure, do you want to logout?</string>
+    <string name="label_ok">OK</string>
+    <string name="label_cancel">Cancel</string>
 
     <string name="val_sunrise">Sunrise %s</string>
     <string name="val_sunset">Sunset %s</string>
@@ -22,5 +26,6 @@
     <string name="val_ground_level">Ground Level %dhPa</string>
     <string name="val_temp">%.1f°C</string>
     <string name="weather_error">No Weather Found</string>
+    <string name="weather_hist_error">No Weather History Found</string>
 
 </resources>

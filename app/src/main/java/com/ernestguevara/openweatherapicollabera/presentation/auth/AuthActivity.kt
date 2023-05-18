@@ -4,12 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import com.ernestguevara.openweatherapicollabera.BaseActivity
 import com.ernestguevara.openweatherapicollabera.databinding.ActivityAuthBinding
 import com.ernestguevara.openweatherapicollabera.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : BaseActivity() {
 
     private val authViewModel: AuthViewModel by viewModels()
     private lateinit var binding: ActivityAuthBinding

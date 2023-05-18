@@ -1,6 +1,5 @@
 package com.ernestguevara.openweatherapicollabera.presentation.auth
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -46,12 +45,14 @@ class AuthViewModel @Inject constructor(private val repository: AuthRepository) 
                 is Resource.Success -> {
                     result.data?.let {
                         _loginData.postValue(it)
+                        _state.postValue(RequestState.Finished)
                     }
                 }
 
                 is Resource.Error -> {
                     result.message?.let {
                         _errorData.postValue(it)
+                        _state.postValue(RequestState.Failed)
                     }
                 }
 
@@ -60,7 +61,7 @@ class AuthViewModel @Inject constructor(private val repository: AuthRepository) 
                 }
             }
         } else {
-            _state.postValue(RequestState.Finished)
+            _state.postValue(RequestState.Failed)
             _errorData.postValue(ERROR_INPUTS)
         }
     }

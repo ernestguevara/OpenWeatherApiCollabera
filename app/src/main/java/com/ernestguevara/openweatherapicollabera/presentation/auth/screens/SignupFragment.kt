@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ernestguevara.openweatherapicollabera.databinding.FragmentSignupBinding
 import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthActivity
 import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthViewModel
+import com.ernestguevara.openweatherapicollabera.util.RequestState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -67,6 +68,15 @@ class SignupFragment : Fragment() {
                 result,
                 Toast.LENGTH_SHORT,
             ).show()
+        }
+
+        authViewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                RequestState.Loading -> (activity as AuthActivity).showLoadingDialog()
+                RequestState.Failed,
+                RequestState.Finished -> (activity as AuthActivity).dismissLoadingDialog()
+                else -> {}
+            }
         }
     }
 
