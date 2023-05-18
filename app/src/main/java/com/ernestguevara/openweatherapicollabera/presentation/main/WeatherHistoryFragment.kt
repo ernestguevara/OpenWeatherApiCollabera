@@ -40,7 +40,7 @@ class WeatherHistoryFragment : Fragment() {
 
     private fun setupRV() = binding.rvWeathers.apply {
         adapter = weatherAdapter
-        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
     }
 
     private fun observeViewModel() {

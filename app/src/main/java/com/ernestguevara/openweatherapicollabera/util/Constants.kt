@@ -21,7 +21,7 @@ object Constants {
     Date Formats
      */
 
-    const val DATE_PROPER = "MMMM dd, yyyy HH:mm:ss"
+    const val DATE_PROPER = "MMMM dd, yyyy h:mm:ss a"
     const val DATE_DAY = "EEEE"
     const val DATE_HOUR = "h:mm a"
 }

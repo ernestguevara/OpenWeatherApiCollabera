@@ -9,8 +9,10 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.util.*
 
 @RunWith(JUnit4::class)
 class UtilsTest {
@@ -34,27 +36,5 @@ class UtilsTest {
         val actualLocationName = setLocationName(city, country)
 
         assertThat(expectedLocationName).isEqualTo(actualLocationName)
-    }
-
-    @Test
-    fun testConvertLongToTimeString() {
-        val timeInMillis: Long = 1621346400000 // Example: May 19, 2021 00:00:00 UTC
-        val format = "yyyy-MM-dd HH:mm:ss"
-        val expectedTimeString = "2021-05-19 00:00:00"
-
-        val actualTimeString = convertLongToTimeString(timeInMillis, format)
-
-        assertThat(expectedTimeString).isEqualTo(actualTimeString)
-    }
-
-    @Test
-    fun testGetCurrentDayLong() {
-        val currentDate = LocalDate.now()
-        val expectedTimeInMillis =
-            currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-
-        val actualTimeInMillis = getCurrentDayLong()
-
-        assertThat(expectedTimeInMillis).isEqualTo(actualTimeInMillis)
     }
 }

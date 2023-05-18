@@ -82,10 +82,8 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun getWeatherHistory() = viewModelScope.launch {
-        Timber.i("ernesthor24 weather userEmail $userEmail")
         weatherRepository.getWeatherHistory(userEmail)
             .onEach { result ->
-                Timber.i("ernesthor24 weather history ${Gson().toJson(result)}")
                 _getWeatherHistoryValue.value = result
             }.launchIn(viewModelScope)
     }
