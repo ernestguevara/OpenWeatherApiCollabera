@@ -1,7 +1,6 @@
 package com.ernestguevara.openweatherapicollabera.presentation.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.ernestguevara.openweatherapicollabera.BaseActivity
@@ -25,6 +24,7 @@ class AuthActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(com.google.android.material.R.style.Theme_Material3_DayNight_NoActionBar)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
