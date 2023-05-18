@@ -1,8 +1,10 @@
 package com.ernestguevara.openweatherapicollabera.presentation
 
+import android.location.Location
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.ernestguevara.openweatherapicollabera.MainCoroutineRule
 import com.ernestguevara.openweatherapicollabera.data.MockWeatherRepository
+import com.ernestguevara.openweatherapicollabera.domain.location.LocationTracker
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
 import com.ernestguevara.openweatherapicollabera.getOrAwaitValue
@@ -16,6 +18,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
@@ -32,11 +35,14 @@ class WeatherViewModelTest {
     private lateinit var mockWeatherRepository: MockWeatherRepository
     private lateinit var mockViewModel: WeatherViewModel
 
+    @Mock
+    private lateinit var locationTracker: LocationTracker
+
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
         mockWeatherRepository = MockWeatherRepository()
-        mockViewModel = WeatherViewModel(mockWeatherRepository)
+        mockViewModel = WeatherViewModel(mockWeatherRepository, locationTracker)
     }
 
     /*
@@ -48,9 +54,12 @@ class WeatherViewModelTest {
         val apiMockRepository = Mockito.mock(WeatherRepository::class.java)
 
         //Prepare the response
-        val response = Resource.Success(WeatherModel(id = 1, localDate = getCurrentDayLong(), email = ""))
+        val response =
+            Resource.Success(WeatherModel(id = 1, localDate = getCurrentDayLong(), email = ""))
 
-        whenever(apiMockRepository.getWeather()).thenReturn(flowOf(response))
+        locationTracker.getCurrentLocation()?.let {
+            whenever(apiMockRepository.getWeather(it)).thenReturn(flowOf(response))
+        }
 
         mockViewModel.getWeather()
 

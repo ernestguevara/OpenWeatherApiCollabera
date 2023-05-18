@@ -53,6 +53,9 @@ fun getCurrentDayLong(): Long {
     return LocalDateTime.now().toInstant(offset).toEpochMilli()
 }
 
+/*
+Others
+ */
 fun loadIndicatorImage(currTime: Long?, sunset: Long?, glide: RequestManager, view: ImageView) {
     val drawable = if (currTime != null && sunset != null && currTime > sunset) {
         R.drawable.moon

@@ -1,5 +1,6 @@
 package com.ernestguevara.openweatherapicollabera.domain.repository
 
+import android.location.Location
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherEntity
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.util.Resource
@@ -10,7 +11,7 @@ interface WeatherRepository {
     /*
     API Call Section
      */
-    fun getWeather(): Flow<Resource<WeatherModel>>
+    fun getWeather(location: Location): Flow<Resource<WeatherModel>>
 
     /*
     Database Call Section

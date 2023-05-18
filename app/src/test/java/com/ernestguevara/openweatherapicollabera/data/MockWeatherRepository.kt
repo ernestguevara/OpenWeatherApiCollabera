@@ -1,6 +1,6 @@
 package com.ernestguevara.openweatherapicollabera.data
 
-import androidx.lifecycle.MutableLiveData
+import android.location.Location
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherEntity
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
@@ -19,7 +19,7 @@ open class MockWeatherRepository : WeatherRepository {
     /*
      * API Section
      */
-    override fun getWeather(): Flow<Resource<WeatherModel>> {
+    override fun getWeather(location: Location): Flow<Resource<WeatherModel>> {
         return flow { emit(Resource.Success(weather)) }
     }
 

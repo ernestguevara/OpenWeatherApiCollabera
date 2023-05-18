@@ -1,5 +1,6 @@
 package com.ernestguevara.openweatherapicollabera.data.repository
 
+import android.location.Location
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherDao
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherEntity
 import com.ernestguevara.openweatherapicollabera.data.remote.WeatherApiService
@@ -26,11 +27,11 @@ class WeatherRepositoryImpl @Inject constructor(
     /*
     API Call Section
      */
-    override fun getWeather(): Flow<Resource<WeatherModel>> = flow {
+    override fun getWeather(location: Location): Flow<Resource<WeatherModel>> = flow {
         emit(Resource.Loading())
 
         try {
-            val result = api.getWeather(6.5679824, 125.4153514)
+            val result = api.getWeather(location.latitude, location.longitude)
             Timber.i("onCreate: value is ${Gson().toJson(result)}")
             emit(Resource.Success(result.dtoToDomainModel()))
         } catch (e: HttpException) {

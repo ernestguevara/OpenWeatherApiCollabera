@@ -1,5 +1,6 @@
 package com.ernestguevara.openweatherapicollabera.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.bumptech.glide.Glide
@@ -8,6 +9,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherDatabase
 import com.ernestguevara.openweatherapicollabera.util.Constants.DB_NAME
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,4 +49,10 @@ object AppModule {
 
     @Provides
     fun provideTimberTree(): Timber.Tree = Timber.DebugTree()
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
+    }
 }
