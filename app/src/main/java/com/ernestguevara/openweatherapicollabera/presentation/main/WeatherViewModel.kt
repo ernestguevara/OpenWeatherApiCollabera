@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherEntity
+import com.ernestguevara.openweatherapicollabera.domain.location.LocationTracker
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
 import com.ernestguevara.openweatherapicollabera.util.RequestState
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: WeatherRepository,
+    private val locationTracker: LocationTracker
 ) : ViewModel() {
 
     private val _state: MutableLiveData<RequestState> = MutableLiveData(null)
@@ -39,44 +41,41 @@ class WeatherViewModel @Inject constructor(
 
     var userEmail: String = ""
 
-    //init block to get weather upon creation
-    init {
-        getWeather()
-    }
-
     fun getWeather() {
         queryJob?.cancel()
         queryJob = viewModelScope.launch {
-            _state.postValue(RequestState.Loading)
-            val data = weatherRepository.getWeather()
+            locationTracker.getCurrentLocation()?.let { location ->
+                _state.postValue(RequestState.Loading)
 
-            data.onEach { results ->
-                when (results) {
-                    is Resource.Success -> {
-                        _state.postValue(RequestState.Finished)
-                        results.data?.let {
-                            it.apply {
-                                localDate = getCurrentDayLong()
-                                email = userEmail
+                val data = weatherRepository.getWeather(location)
+
+                data.onEach { results ->
+                    when (results) {
+                        is Resource.Success -> {
+                            _state.postValue(RequestState.Finished)
+                            results.data?.let {
+                                it.apply {
+                                    localDate = getCurrentDayLong()
+                                    email = userEmail
+                                }
+                                _getWeatherValue.postValue(it)
+                                insertWeatherHistory(it)
                             }
-                            _getWeatherValue.postValue(it)
-                            Timber.i("ernesthor24 insert val ${Gson().toJson(it)}")
-                            insertWeatherHistory(it)
+                        }
+
+                        is Resource.Error -> {
+                            _state.postValue(RequestState.Failed)
+                            results.message?.let {
+                                _getWeatherError.postValue(it)
+                            }
+                        }
+
+                        is Resource.Loading -> {
+                            _state.postValue(RequestState.Loading)
                         }
                     }
-
-                    is Resource.Error -> {
-                        _state.postValue(RequestState.Failed)
-                        results.message?.let {
-                            _getWeatherError.postValue(it)
-                        }
-                    }
-
-                    is Resource.Loading -> {
-                        _state.postValue(RequestState.Loading)
-                    }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
+            }
         }
     }
 

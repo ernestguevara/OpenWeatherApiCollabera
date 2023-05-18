@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.RequestManager
@@ -40,15 +41,24 @@ class WeatherHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeViewModel()
+
+        binding.ivRefresh.setOnClickListener {
+            (activity as MainActivity).askPermissions()
+        }
     }
 
     private fun observeViewModel() {
         weatherViewModel.getWeatherValue.observe(viewLifecycleOwner) {
             if (it != null) {
+                binding.run {
+                    clError.visibility = View.GONE
+                    cardWeather.clWeatherContainer.visibility = View.VISIBLE
+                }
+
                 populateView(it)
             } else {
                 binding.run {
-                    tvError.visibility = View.VISIBLE
+                    clError.visibility = View.VISIBLE
                     cardWeather.clWeatherContainer.visibility = View.GONE
                 }
             }
@@ -65,9 +75,13 @@ class WeatherHomeFragment : Fragment() {
         }
 
         weatherViewModel.getWeatherError.observe(viewLifecycleOwner) {
-
             binding.run {
-                tvError.visibility = View.VISIBLE
+                Toast.makeText(
+                    activity,
+                    it,
+                    Toast.LENGTH_SHORT
+                ).show()
+                clError.visibility = View.VISIBLE
                 cardWeather.clWeatherContainer.visibility = View.GONE
             }
         }
@@ -76,9 +90,9 @@ class WeatherHomeFragment : Fragment() {
     private fun populateView(it: WeatherModel?) {
         binding.run {
             if (it == null) {
-                tvError.visibility = View.VISIBLE
+                clError.visibility = View.VISIBLE
             } else {
-                tvError.visibility = View.GONE
+                clError.visibility = View.GONE
 
                 cardWeather.apply {
                     tvLocation.text = setLocationName(it.name, it.sysDTO?.country)

@@ -41,7 +41,9 @@ class WeatherHistoryFragment : Fragment() {
 
     private fun setupRV() = binding.rvWeathers.apply {
         adapter = weatherAdapter
-        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false).apply {
+            scrollToPosition(0)
+        }
     }
 
     private fun observeViewModel() {
@@ -55,7 +57,7 @@ class WeatherHistoryFragment : Fragment() {
                     tvError.visibility = View.GONE
                     weatherAdapter.weatherList = list.map {
                         it.toWeatherModel()
-                    }
+                    }.reversed()
 
                     rvWeathers.scrollToPosition(0)
                 }

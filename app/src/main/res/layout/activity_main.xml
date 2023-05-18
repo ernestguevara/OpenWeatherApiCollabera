@@ -13,6 +13,7 @@
         android:layout_height="?android:attr/actionBarSize"
         app:tabMode="fixed"
         app:tabGravity="fill"
+        android:backgroundTint="@color/gray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -35,7 +36,8 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/ic_settings_24" />
+        app:srcCompat="@drawable/ic_settings_24"
+        android:backgroundTint="@color/orange"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
