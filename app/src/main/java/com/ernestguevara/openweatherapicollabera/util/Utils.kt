@@ -37,28 +37,20 @@ fun setLocationName(city: String?, country: String?): String {
     return "$city, $country"
 }
 
-fun convertLongToTimeString(timeInMillis: Long?): String {
+fun convertLongToTimeString(timeInMillis: Long?, format: String): String {
     return if (timeInMillis != null) {
-        val localDateTime = LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(timeInMillis),
-            ZoneId.systemDefault()
-        )
-        val formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-            .withLocale(Locale.getDefault())
-        localDateTime.format(formatter)
+        val instant = Instant.ofEpochMilli(timeInMillis)
+        val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+        val formatter = DateTimeFormatter.ofPattern(format)
+
+        dateTime.format(formatter)
     } else {
-        "00:00AM"
+        format.replace(Regex("[a-zA-Z0-9]"), "-")
     }
 }
 
-fun getCurrentDate(): String {
+fun getCurrentDayLong(): Long {
     val currentDate = LocalDate.now()
-    val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy", Locale.getDefault())
-    return currentDate.format(formatter)
-}
-
-fun getCurrentDay(): String {
-    val currentDate = LocalDate.now()
-    val formatter = DateTimeFormatter.ofPattern("EEEE", Locale.getDefault())
-    return currentDate.format(formatter)
+    val startOfDay = currentDate.atStartOfDay(ZoneId.systemDefault())
+    return startOfDay.toInstant().toEpochMilli()
 }

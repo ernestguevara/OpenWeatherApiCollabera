@@ -17,6 +17,6 @@ interface WeatherRepository {
      */
     suspend fun insertWeatherToDb(weatherModel: WeatherModel)
     suspend fun deleteWeatherToDb(weatherModel: WeatherModel)
-    fun getWeatherHistory(): Flow<List<WeatherEntity>>
+    fun getWeatherHistory(email: String): Flow<List<WeatherEntity>>
 
 }

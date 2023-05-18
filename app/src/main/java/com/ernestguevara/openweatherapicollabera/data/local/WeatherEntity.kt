@@ -22,11 +22,12 @@ data class WeatherEntity(
     var weatherDescription: String? = null,
     var weatherIcon: String? = null,
     var weatherId: Int? = null,
-    var weatherMain: String? = null
+    var weatherMain: String? = null,
+    var localDate: Long? = null,
+    var email: String? = null
 ) {
     fun toWeatherModel(): WeatherModel {
         return WeatherModel(
-            id = id,
             cityId = cityId,
             name = name,
             sysDTO = if (sysCountry != null && sysSunrise != null && sysSunset != null) {
@@ -56,7 +57,9 @@ data class WeatherEntity(
                 )
             } else {
                 null
-            }
+            },
+            localDate = localDate,
+            email = email
         )
     }
 }

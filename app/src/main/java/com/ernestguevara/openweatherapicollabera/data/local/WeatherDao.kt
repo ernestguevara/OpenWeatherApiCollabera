@@ -11,6 +11,6 @@ interface WeatherDao {
     @Delete
     suspend fun deleteWeatherEntry(weatherEntity: WeatherEntity)
 
-    @Query("SELECT * FROM weather_items")
-    fun getAllWeatherEntry(): Flow<List<WeatherEntity>>
+    @Query("SELECT * FROM weather_items WHERE email = :email")
+    fun getAllWeatherEntry(email: String): Flow<List<WeatherEntity>>
 }

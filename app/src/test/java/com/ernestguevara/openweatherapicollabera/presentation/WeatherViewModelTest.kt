@@ -6,7 +6,9 @@ import com.ernestguevara.openweatherapicollabera.data.MockWeatherRepository
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
 import com.ernestguevara.openweatherapicollabera.getOrAwaitValue
+import com.ernestguevara.openweatherapicollabera.presentation.main.WeatherViewModel
 import com.ernestguevara.openweatherapicollabera.util.Resource
+import com.ernestguevara.openweatherapicollabera.util.getCurrentDayLong
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -46,7 +48,7 @@ class WeatherViewModelTest {
         val apiMockRepository = Mockito.mock(WeatherRepository::class.java)
 
         //Prepare the response
-        val response = Resource.Success(WeatherModel(id = 1))
+        val response = Resource.Success(WeatherModel(id = 1, localDate = getCurrentDayLong(), email = ""))
 
         whenever(apiMockRepository.getWeather()).thenReturn(flowOf(response))
 
@@ -124,7 +126,8 @@ class WeatherViewModelTest {
         val expectedValue = mockViewModel.getWeatherHistoryValue.getOrAwaitValue()
 
         // Assert the expected behavior
-        assertThat(expectedValue).hasSize(3)
+        // Additional Size since we add after initial init of API Call
+        assertThat(expectedValue).hasSize(4)
 
     }
 }

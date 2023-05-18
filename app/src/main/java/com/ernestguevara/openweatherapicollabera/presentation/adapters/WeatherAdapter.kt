@@ -11,8 +11,8 @@ import com.ernestguevara.openweatherapicollabera.BuildConfig
 import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.databinding.ItemWeatherBinding
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
+import com.ernestguevara.openweatherapicollabera.util.Constants
 import com.ernestguevara.openweatherapicollabera.util.convertLongToTimeString
-import com.ernestguevara.openweatherapicollabera.util.getCurrentDate
 import com.ernestguevara.openweatherapicollabera.util.setLocationName
 import javax.inject.Inject
 
@@ -48,14 +48,21 @@ class WeatherAdapter @Inject constructor(
         holder.binding.apply {
             weatherHistory.let {
                 tvLocation.text = setLocationName(it.name, it.sysDTO?.country)
-                tvDate.text = getCurrentDate()
+                tvDay.text = convertLongToTimeString(it.sysDTO?.sunrise, Constants.DATE_DAY)
+                tvDate.text = convertLongToTimeString(it.sysDTO?.sunrise, Constants.DATE_PROPER)
                 tvTemp.text =
                     context.getString(R.string.val_temp, it.mainDTO?.temp)
                 tvDesc.text = it.weatherResultsDTO?.description
                 tvSunrise.text =
-                    context.getString(R.string.val_sunrise, convertLongToTimeString(it.sysDTO?.sunrise))
+                    context.getString(
+                        R.string.val_sunrise,
+                        convertLongToTimeString(it.sysDTO?.sunrise, Constants.DATE_HOUR)
+                    )
                 tvSunset.text =
-                    context.getString(R.string.val_sunset, convertLongToTimeString(it.sysDTO?.sunset))
+                    context.getString(
+                        R.string.val_sunset,
+                        convertLongToTimeString(it.sysDTO?.sunset, Constants.DATE_HOUR)
+                    )
                 tvTempMin.text =
                     context.getString(R.string.val_temp_min, it.mainDTO?.tempMin)
                 tvTempMax.text = context.getString(R.string.val_temp_max, it.mainDTO?.tempMax)

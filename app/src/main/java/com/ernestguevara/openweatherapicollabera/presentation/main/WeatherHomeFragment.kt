@@ -11,10 +11,10 @@ import com.ernestguevara.openweatherapicollabera.BuildConfig
 import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.databinding.FragmentWeatherHomeBinding
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
-import com.ernestguevara.openweatherapicollabera.presentation.WeatherViewModel
+import com.ernestguevara.openweatherapicollabera.util.Constants.DATE_DAY
+import com.ernestguevara.openweatherapicollabera.util.Constants.DATE_HOUR
+import com.ernestguevara.openweatherapicollabera.util.Constants.DATE_PROPER
 import com.ernestguevara.openweatherapicollabera.util.convertLongToTimeString
-import com.ernestguevara.openweatherapicollabera.util.getCurrentDate
-import com.ernestguevara.openweatherapicollabera.util.getCurrentDay
 import com.ernestguevara.openweatherapicollabera.util.setLocationName
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -53,15 +53,21 @@ class WeatherHomeFragment : Fragment() {
 
                 cardWeather.apply {
                     tvLocation.text = setLocationName(it.name, it.sysDTO?.country)
-                    tvDay.text = getCurrentDay()
-                    tvDate.text = getCurrentDate()
+                    tvDay.text = convertLongToTimeString(it.sysDTO?.sunrise, DATE_DAY)
+                    tvDate.text = convertLongToTimeString(it.sysDTO?.sunrise, DATE_PROPER)
                     tvTemp.text =
                         getString(R.string.val_temp, it.mainDTO?.temp)
                     tvDesc.text = it.weatherResultsDTO?.description
                     tvSunrise.text =
-                        getString(R.string.val_sunrise, convertLongToTimeString(it.sysDTO?.sunrise))
+                        getString(
+                            R.string.val_sunrise,
+                            convertLongToTimeString(it.sysDTO?.sunrise, DATE_HOUR)
+                        )
                     tvSunset.text =
-                        getString(R.string.val_sunset, convertLongToTimeString(it.sysDTO?.sunset))
+                        getString(
+                            R.string.val_sunset,
+                            convertLongToTimeString(it.sysDTO?.sunset, DATE_HOUR)
+                        )
                     tvTempMin.text =
                         getString(R.string.val_temp_min, it.mainDTO?.tempMin)
                     tvTempMax.text = getString(R.string.val_temp_max, it.mainDTO?.tempMax)

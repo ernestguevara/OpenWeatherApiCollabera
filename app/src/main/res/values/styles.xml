@@ -14,6 +14,8 @@
     <style name="LightBiggerTextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/light_gray</item>
+        <item name="maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>
