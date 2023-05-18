@@ -4,11 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.ernestguevara.openweatherapicollabera.BaseActivity
 import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.databinding.ActivityMainBinding
 import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthActivity
@@ -18,7 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val weatherViewModel: WeatherViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
@@ -32,14 +31,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupViewPager()
-
         weatherViewModel.setEmail(authViewModel.currentUser?.email.toString())
-
         binding.fab.setOnClickListener { view ->
-            authViewModel.logout()
-            startActivity(Intent(this@MainActivity, AuthActivity::class.java))
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            showAlertDialog(
+                this@MainActivity,
+                getString(R.string.logout),
+                getString(R.string.label_logout_message),
+                getString(R.string.label_ok),
+                {
+                    authViewModel.logout()
+                    startActivity(Intent(this@MainActivity, AuthActivity::class.java))
+                },
+                getString(R.string.label_cancel)
+            )
         }
     }
 

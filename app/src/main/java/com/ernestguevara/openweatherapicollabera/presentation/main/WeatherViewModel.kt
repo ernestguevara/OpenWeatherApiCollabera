@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ernestguevara.openweatherapicollabera.data.local.WeatherEntity
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
+import com.ernestguevara.openweatherapicollabera.util.RequestState
 import com.ernestguevara.openweatherapicollabera.util.Resource
 import com.ernestguevara.openweatherapicollabera.util.getCurrentDayLong
 import com.google.gson.Gson
@@ -21,6 +22,9 @@ import javax.inject.Inject
 class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
+
+    private val _state: MutableLiveData<RequestState> = MutableLiveData(null)
+    val state: MutableLiveData<RequestState> = _state
 
     private val _getWeatherValue = MutableLiveData<WeatherModel>()
     val getWeatherValue: MutableLiveData<WeatherModel> = _getWeatherValue
@@ -43,11 +47,13 @@ class WeatherViewModel @Inject constructor(
     fun getWeather() {
         queryJob?.cancel()
         queryJob = viewModelScope.launch {
+            _state.postValue(RequestState.Loading)
             val data = weatherRepository.getWeather()
 
             data.onEach { results ->
                 when (results) {
                     is Resource.Success -> {
+                        _state.postValue(RequestState.Finished)
                         results.data?.let {
                             it.apply {
                                 localDate = getCurrentDayLong()
@@ -60,13 +66,14 @@ class WeatherViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
+                        _state.postValue(RequestState.Failed)
                         results.message?.let {
                             _getWeatherError.postValue(it)
                         }
                     }
 
                     is Resource.Loading -> {
-
+                        _state.postValue(RequestState.Loading)
                     }
                 }
             }.launchIn(this)

@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.RequestManager
-import com.ernestguevara.openweatherapicollabera.BuildConfig
 import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.databinding.FragmentWeatherHomeBinding
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
+import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthActivity
 import com.ernestguevara.openweatherapicollabera.util.*
 import com.ernestguevara.openweatherapicollabera.util.Constants.DATE_DAY
 import com.ernestguevara.openweatherapicollabera.util.Constants.DATE_HOUR
 import com.ernestguevara.openweatherapicollabera.util.Constants.DATE_PROPER
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -38,8 +39,37 @@ class WeatherHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
         weatherViewModel.getWeatherValue.observe(viewLifecycleOwner) {
-            populateView(it)
+            if (it != null) {
+                populateView(it)
+            } else {
+                binding.run {
+                    tvError.visibility = View.VISIBLE
+                    cardWeather.clWeatherContainer.visibility = View.GONE
+                }
+            }
+
+        }
+
+        weatherViewModel.state.observe(viewLifecycleOwner) {
+            when (it) {
+                RequestState.Loading -> (activity as MainActivity).showLoadingDialog()
+                RequestState.Failed,
+                RequestState.Finished -> (activity as MainActivity).dismissLoadingDialog()
+                else -> {}
+            }
+        }
+
+        weatherViewModel.getWeatherError.observe(viewLifecycleOwner) {
+
+            binding.run {
+                tvError.visibility = View.VISIBLE
+                cardWeather.clWeatherContainer.visibility = View.GONE
+            }
         }
     }
 
