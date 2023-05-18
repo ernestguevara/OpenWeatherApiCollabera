@@ -9,11 +9,12 @@ data class WeatherModel(
     val name: String? = null,
     val sysDTO: SysDTO? = null,
     val mainDTO: MainDTO? = null,
-    val weatherResultsDTO: WeatherResultsDTO? = null
+    val weatherResultsDTO: WeatherResultsDTO? = null,
+    var localDate: Long? = null,
+    var email: String? = null,
 ) {
     fun toEntity(): WeatherEntity {
         return WeatherEntity(
-            id = id,
             cityId = cityId,
             name = name,
             sysCountry = sysDTO?.country,
@@ -25,7 +26,9 @@ data class WeatherModel(
             weatherDescription = weatherResultsDTO?.description,
             weatherIcon = weatherResultsDTO?.icon,
             weatherId = weatherResultsDTO?.id,
-            weatherMain = weatherResultsDTO?.main
+            weatherMain = weatherResultsDTO?.main,
+            localDate = localDate,
+            email = email
         )
     }
 }

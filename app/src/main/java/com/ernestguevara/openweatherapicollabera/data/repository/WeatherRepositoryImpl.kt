@@ -55,7 +55,7 @@ class WeatherRepositoryImpl @Inject constructor(
         weatherDao.deleteWeatherEntry(weatherModel.toEntity())
     }
 
-    override fun getWeatherHistory(): Flow<List<WeatherEntity>> {
-        return weatherDao.getAllWeatherEntry()
+    override fun getWeatherHistory(email: String): Flow<List<WeatherEntity>> {
+        return weatherDao.getAllWeatherEntry(email)
     }
 }

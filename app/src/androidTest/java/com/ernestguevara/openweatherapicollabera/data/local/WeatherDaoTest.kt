@@ -2,6 +2,7 @@ package com.ernestguevara.openweatherapicollabera.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.SmallTest
+import com.ernestguevara.openweatherapicollabera.MainCoroutineRule
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -26,6 +27,9 @@ class WeatherDaoTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     @Inject
     @Named("test_db")
     lateinit var mockDb: WeatherDatabase
@@ -44,7 +48,7 @@ class WeatherDaoTest {
     }
 
     @Test
-    fun testInsertWeather() = runBlockingTest {
+    fun testInsertWeather() = mainCoroutineRule.runBlockingTest {
         //Prepare data
         val weather = provideWeatherItem()
 
@@ -52,14 +56,14 @@ class WeatherDaoTest {
         dao.insertWeatherEntry(weather)
 
         // Get db data
-        val result = collectWeatherFlow(this, dao.getAllWeatherEntry())
+        val result = collectWeatherFlow(this, dao.getAllWeatherEntry("test@email.com"))
 
         // Assert the expected value
         assertThat(result).contains(weather)
     }
 
     @Test
-    fun testDeleteWeather() = runBlockingTest {
+    fun testDeleteWeather() = mainCoroutineRule.runBlockingTest {
         //Prepare data
         val weather = provideWeatherItem()
 
@@ -70,14 +74,14 @@ class WeatherDaoTest {
         dao.deleteWeatherEntry(weather)
 
         // Get db data
-        val result = collectWeatherFlow(this, dao.getAllWeatherEntry())
+        val result = collectWeatherFlow(this, dao.getAllWeatherEntry("test@email.com"))
 
         // Assert the expected value
         assertThat(result).doesNotContain(weather)
     }
 
     @Test
-    fun getWeatherHistory() = runBlockingTest {
+    fun getWeatherHistory() = mainCoroutineRule.runBlockingTest {
         //Prepare data
         val weather = provideWeatherItem()
 
@@ -85,28 +89,10 @@ class WeatherDaoTest {
         dao.insertWeatherEntry(weather)
 
         // Get db data
-        val result = collectWeatherFlow(this, dao.getAllWeatherEntry())
+        val result = collectWeatherFlow(this, dao.getAllWeatherEntry("test@email.com"))
 
         // Assert the expected value
         assertThat(result).hasSize(1)
-    }
-
-    private fun provideWeatherItem(): WeatherEntity{
-        return WeatherEntity(
-            id = 1,
-            cityId = 1,
-            name = "testname",
-            sysCountry ="PH",
-            sysSunrise = 123213,
-            sysSunset = 2131242,
-            mainTemp = 21.0,
-            mainTempMax = 23.0,
-            mainTempMin = 25.0,
-            weatherDescription = "test desc",
-            weatherIcon = "04d",
-            weatherId = 2,
-            weatherMain = "testMain"
-        )
     }
 
     private suspend fun collectWeatherFlow(
@@ -126,5 +112,25 @@ class WeatherDaoTest {
         }
         job.cancelAndJoin()
         return result
+    }
+
+    private fun provideWeatherItem(): WeatherEntity {
+        return WeatherEntity(
+            id = 1,
+            cityId = 1,
+            name = "testname",
+            sysCountry = "PH",
+            sysSunrise = 123213,
+            sysSunset = 2131242,
+            mainTemp = 21.0,
+            mainTempMax = 23.0,
+            mainTempMin = 25.0,
+            weatherDescription = "test desc",
+            weatherIcon = "04d",
+            weatherId = 2,
+            weatherMain = "testMain",
+            localDate = 1234,
+            email = "test@email.com"
+        )
     }
 }

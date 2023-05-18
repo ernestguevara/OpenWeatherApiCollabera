@@ -8,12 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.databinding.FragmentWeatherHistoryBinding
-import com.ernestguevara.openweatherapicollabera.presentation.WeatherViewModel
 import com.ernestguevara.openweatherapicollabera.presentation.adapters.WeatherAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,25 +34,32 @@ class WeatherHistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRV()
         observeViewModel()
+
+        weatherViewModel.getWeatherHistory()
     }
 
     private fun setupRV() = binding.rvWeathers.apply {
         adapter = weatherAdapter
-        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
     }
 
     private fun observeViewModel() {
         weatherViewModel.getWeatherHistoryValue.observe(viewLifecycleOwner) { list ->
-            if (list.isNullOrEmpty()) {
-                binding.rvWeathers.visibility = View.GONE
-                binding.tvError.visibility = View.VISIBLE
-            } else {
-                binding.rvWeathers.visibility = View.VISIBLE
-                binding.tvError.visibility = View.GONE
-                weatherAdapter.weatherList = list.map {
-                    it.toWeatherModel()
+            binding.run {
+                if (list.isNullOrEmpty()) {
+                    rvWeathers.visibility = View.GONE
+                    tvError.visibility = View.VISIBLE
+                } else {
+                    rvWeathers.visibility = View.VISIBLE
+                    tvError.visibility = View.GONE
+                    weatherAdapter.weatherList = list.map {
+                        it.toWeatherModel()
+                    }
+
+                    rvWeathers.scrollToPosition(0)
                 }
             }
+
         }
     }
 }

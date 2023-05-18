@@ -1,4 +1,4 @@
-package com.ernestguevara.openweatherapicollabera.presentation
+package com.ernestguevara.openweatherapicollabera.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,8 +13,6 @@ import com.ernestguevara.openweatherapicollabera.R
 import com.ernestguevara.openweatherapicollabera.databinding.ActivityMainBinding
 import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthActivity
 import com.ernestguevara.openweatherapicollabera.presentation.auth.AuthViewModel
-import com.ernestguevara.openweatherapicollabera.presentation.main.WeatherHomeFragment
-import com.ernestguevara.openweatherapicollabera.presentation.main.WeatherHistoryFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupViewPager()
+
+        weatherViewModel.setEmail(authViewModel.currentUser?.email.toString())
 
         binding.fab.setOnClickListener { view ->
             authViewModel.logout()

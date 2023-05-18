@@ -1,4 +1,4 @@
-package com.ernestguevara.openweatherapicollabera.presentation
+package com.ernestguevara.openweatherapicollabera.presentation.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,11 +7,14 @@ import com.ernestguevara.openweatherapicollabera.data.local.WeatherEntity
 import com.ernestguevara.openweatherapicollabera.domain.model.WeatherModel
 import com.ernestguevara.openweatherapicollabera.domain.repository.WeatherRepository
 import com.ernestguevara.openweatherapicollabera.util.Resource
+import com.ernestguevara.openweatherapicollabera.util.getCurrentDayLong
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,10 +33,11 @@ class WeatherViewModel @Inject constructor(
 
     private var queryJob: Job? = null
 
+    var userEmail: String = ""
+
     //init block to get weather upon creation
     init {
         getWeather()
-        getWeatherHistory()
     }
 
     fun getWeather() {
@@ -45,7 +49,12 @@ class WeatherViewModel @Inject constructor(
                 when (results) {
                     is Resource.Success -> {
                         results.data?.let {
+                            it.apply {
+                                localDate = getCurrentDayLong()
+                                email = userEmail
+                            }
                             _getWeatherValue.postValue(it)
+                            Timber.i("ernesthor24 insert val ${Gson().toJson(it)}")
                             insertWeatherHistory(it)
                         }
                     }
@@ -73,10 +82,13 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun getWeatherHistory() = viewModelScope.launch {
-        weatherRepository.getWeatherHistory()
+        weatherRepository.getWeatherHistory(userEmail)
             .onEach { result ->
                 _getWeatherHistoryValue.value = result
             }.launchIn(viewModelScope)
     }
 
+    fun setEmail(email: String) {
+        userEmail = email
+    }
 }

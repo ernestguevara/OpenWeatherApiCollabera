@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar"/>
     </application>

@@ -43,6 +43,7 @@ object AppModule {
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(context, WeatherDatabase::class.java, DB_NAME).build()
 
+
     @Provides
     fun provideTimberTree(): Timber.Tree = Timber.DebugTree()
 }

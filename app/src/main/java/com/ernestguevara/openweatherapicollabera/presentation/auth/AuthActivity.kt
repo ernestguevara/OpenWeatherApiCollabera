@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.ernestguevara.openweatherapicollabera.databinding.ActivityAuthBinding
-import com.ernestguevara.openweatherapicollabera.presentation.MainActivity
+import com.ernestguevara.openweatherapicollabera.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -34,7 +34,7 @@ open class MockWeatherRepository : WeatherRepository {
         savedWeather.remove(weatherModel.toEntity())
     }
 
-    override fun getWeatherHistory(): Flow<List<WeatherEntity>> {
+    override fun getWeatherHistory(email: String): Flow<List<WeatherEntity>> {
         return flow { emit(savedWeather) }
     }
 }
