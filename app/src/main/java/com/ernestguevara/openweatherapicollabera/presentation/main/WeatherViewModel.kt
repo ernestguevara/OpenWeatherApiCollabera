@@ -59,7 +59,6 @@ class WeatherViewModel @Inject constructor(
                                     email = userEmail
                                 }
                                 _getWeatherValue.postValue(it)
-                                Timber.i("ernesthor24 insert val ${Gson().toJson(it)}")
                                 insertWeatherHistory(it)
                             }
                         }

@@ -32,7 +32,6 @@ class WeatherRepositoryImpl @Inject constructor(
 
         try {
             val result = api.getWeather(location.latitude, location.longitude)
-            Timber.i("onCreate: value is ${Gson().toJson(result)}")
             emit(Resource.Success(result.dtoToDomainModel()))
         } catch (e: HttpException) {
             emit(Resource.Error(message = ERROR_HTTP))
